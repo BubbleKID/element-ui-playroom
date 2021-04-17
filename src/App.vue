@@ -40,66 +40,26 @@
             :h="item.h"
             :i="item.i"
           >
-            <component :is="item.component"></component>
+            <component :is="item.component" :property="item.property"></component>
             <span class="remove" @click="removeItem(item.i)">x</span>
           </grid-item>
         </grid-layout>
       </el-col>
       <el-col :span="4">
-        <el-form ref="form" :model="form" label-width="120px">
-          <el-form-item label="Activity name">
-            <el-input v-model="form.name"></el-input>
-          </el-form-item>
-          <el-form-item label="Activity zone">
-            <el-select v-model="form.region" placeholder="please select your zone">
-              <el-option label="Zone one" value="shanghai"></el-option>
-              <el-option label="Zone two" value="beijing"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Activity time">
-            <el-col :span="11">
-              <el-date-picker type="date" placeholder="Pick a date" v-model="form.date1" style="width: 100%;"></el-date-picker>
-            </el-col>
-            <el-col class="line" :span="2">-</el-col>
-            <el-col :span="11">
-              <el-time-picker placeholder="Pick a time" v-model="form.date2" style="width: 100%;"></el-time-picker>
-            </el-col>
-          </el-form-item>
-          <el-form-item label="Instant delivery">
-            <el-switch v-model="form.delivery"></el-switch>
-          </el-form-item>
-          <el-form-item label="Activity type">
-            <el-checkbox-group v-model="form.type">
-              <el-checkbox label="Online activities" name="type"></el-checkbox>
-              <el-checkbox label="Promotion activities" name="type"></el-checkbox>
-              <el-checkbox label="Offline activities" name="type"></el-checkbox>
-              <el-checkbox label="Simple brand exposure" name="type"></el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
-          <el-form-item label="Resources">
-            <el-radio-group v-model="form.resource">
-              <el-radio label="Sponsor"></el-radio>
-              <el-radio label="Venue"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="Activity form">
-            <el-input type="textarea" v-model="form.desc"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">Create</el-button>
-            <el-button>Cancel</el-button>
-          </el-form-item>
-        </el-form>
+        <Property></Property>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
+import store from "./store";
 import Button from "./components/Button.vue";
 import Input_a from "./components/Input_a.vue";
 import Table from "./components/Table.vue";
+import Property from "./components/Property.vue";
 import { GridLayout, GridItem } from "./components/";
+
 
 export default {
   name: 'App',
@@ -108,29 +68,18 @@ export default {
     GridItem,
     Button,
     Input_a,
-    Table
+    Table,
+    Property
   },
+  store,
   data() {
     return {
       selected: null,
-      layout: [
-          {"x":0,"y":0,"w":2,"h":2,"i":"0", static: false, component: Button},
-          {"x":2,"y":0,"w":2,"h":4,"i":"1", static: false,  component: Input_a},
-      ],
+      layout: this.$store.state.layout,
       componentNumber: 2,
       draggable: true,
       resizable: true,
       index: 0,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
       activeIndex: 'Workspace'
     }
   },
@@ -147,9 +96,7 @@ export default {
     handleDragend() {
       this.dragItemId = null;
     },
-    onSubmit() {
-      console.log('submit!');
-    },
+    
     handleOpen() {
       console.log('submit!');
     },
@@ -195,12 +142,10 @@ export default {
       this.componentNumber++;
     },
     onFocus() {
-      debugger
-      
     }
   },
-  mounted() {
-     
+  mounted() { 
+    
   },
 }
 </script>

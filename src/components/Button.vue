@@ -1,11 +1,11 @@
 <template>
   <el-button 
-    :type="type" 
+    :type="property.type" 
     :plain="plain"
     :icon="icon"
-    :loading="loading"
+    @click="onClick"
   >
-    Primary
+    {{property.text}}
   </el-button>
 </template>
 
@@ -24,15 +24,23 @@ export default {
       type: String,
       default: "el-icon-edit"
     },
-    loading: {
-      type: Boolean,
-      default: false
-    }
+    property: {
+      type: Object,
+      default: null
+    },
   },
   data() {
     return {
       data: "我是a组件",
     };
+  },
+  mounted() {
+   
+  },
+  methods: {
+    onClick() {
+       //console.log(this.property.text);
+    }
   },
 };
 </script>
