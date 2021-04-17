@@ -1,7 +1,9 @@
 <template>
   <div class="drag-wrapper"> 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-      <el-menu-item index="1">Export</el-menu-item>
+      <el-menu-item index="1">Export html</el-menu-item>
+      <el-menu-item index="2">View: Design</el-menu-item>
+       <el-menu-item index="3">View: Code</el-menu-item>
     </el-menu>
     <el-row :gutter="20" >
       <el-col :span="4">
@@ -21,29 +23,42 @@
           </el-menu-item>
         </el-menu>
       </el-col>
-      <el-col :span="16" class="blueprint">
-        <grid-layout :layout.sync="layout" :auto-size="false" style="min-height: 1024px;" 
-          :col-num="12"
-          :row-height="10"
-          :is-draggable="draggable"
-          :is-resizable="resizable"
-          :responsive="false"
-          :vertical-compact="false"
-          :prevent-collision="true"
-          :use-css-transforms="true"
-        >
-          <grid-item v-for="(item) in layout" v-bind:key="item.i"  
-            :static="item.static"
-            :x="item.x"
-            :y="item.y"
-            :w="item.w"
-            :h="item.h"
-            :i="item.i"
-          >
-            <component :is="item.component" :property="item.property"></component>
-            <span class="remove" @click="removeItem(item.i)">x</span>
-          </grid-item>
-        </grid-layout>
+      <el-col :span="16" >
+        <el-tabs type="card">
+          <el-tab-pane label="Design" class="blueprint">
+             <grid-layout :layout.sync="layout" :auto-size="false" style="min-height: 1024px;" 
+              :col-num="12"
+              :row-height="10"
+              :is-draggable="draggable"
+              :is-resizable="resizable"
+              :responsive="false"
+              :vertical-compact="false"
+              :prevent-collision="true"
+              :use-css-transforms="true"
+            >
+              <grid-item v-for="(item) in layout" v-bind:key="item.i"  
+                :static="item.static"
+                :x="item.x"
+                :y="item.y"
+                :w="item.w"
+                :h="item.h"
+                :i="item.i"
+                :componentId="item.i"
+              >
+                <component :is="item.component" :property="item.property"></component>
+                <span class="remove" @click="removeItem(item.i)">{{item.i}}: x</span>
+              </grid-item>
+            </grid-layout>
+          </el-tab-pane>
+          <el-tab-pane label="Code">
+            <pre v-highlightjs>
+                <code class="javscript">
+                   {{code}}
+                </code>
+            </pre>
+          </el-tab-pane>
+        </el-tabs>
+       
       </el-col>
       <el-col :span="4">
         <Property></Property>
@@ -59,7 +74,6 @@ import Input_a from "./components/Input_a.vue";
 import Table from "./components/Table.vue";
 import Property from "./components/Property.vue";
 import { GridLayout, GridItem } from "./components/";
-
 
 export default {
   name: 'App',
@@ -80,7 +94,8 @@ export default {
       draggable: true,
       resizable: true,
       index: 0,
-      activeIndex: 'Workspace'
+      activeIndex: 'Workspace',
+      code: "let aa 'bbb';"
     }
   },
   methods: {
@@ -137,7 +152,8 @@ export default {
         "h":2,
         "i":this.componentNumber, 
         static: false, 
-        component: component
+        component: component,
+        property: null
       });
       this.componentNumber++;
     },

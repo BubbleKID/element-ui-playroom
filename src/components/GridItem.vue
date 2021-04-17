@@ -202,6 +202,11 @@
                 type: Boolean,
                 required: false,
                 default: false,
+            },
+            componentId: {
+              type: String,
+              required: false,
+              default: '0',
             }
         },
         inject: ["eventBus", "layout"],
@@ -488,7 +493,9 @@
                 }
               
                 if(this.selected) {
-                    style.border = '3px solid #7aff06';
+                  style.border = '3px solid #7aff06';
+                } else {
+                  style.border = '1px solid black';
                 }
                 this.style = style;
             },
@@ -881,11 +888,16 @@
                     this.eventBus.$emit("resizeEvent", "resizeend", this.i, this.innerX, this.innerY, pos.h, pos.w);
                 }
             },
-            onClick: function() {
+            onClick: function(e) {
+              e.stopPropagation();
+              const select = this.$store.state.selected;
+              this.$store.commit('updateSelected', this.componentId);
+              
+              if(select === this.componentId) {
+                this.selected = true;
+              } 
               console.log(this.selected)
-              this.selected = true;
               this.createStyle();
-              console.log(this.style)
             }
         },
     }

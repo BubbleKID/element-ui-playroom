@@ -1,5 +1,5 @@
 <template>
-    <div ref="item" class="vue-grid-layout" :style="mergedStyle">
+    <div ref="item" class="vue-grid-layout" :style="mergedStyle" @click="onClick">
         <slot></slot>
         <grid-item class="vue-grid-placeholder"
                    v-show="isDragging"
@@ -461,6 +461,9 @@
 
                 //Combine the two arrays of unique entries#
                 return uniqueResultOne.concat(uniqueResultTwo);
+            },
+            onClick: function() {
+              this.$store.commit('updateSelected', -1);
             }
         },
     }
