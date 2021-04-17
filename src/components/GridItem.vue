@@ -204,9 +204,9 @@
                 default: false,
             },
             componentId: {
-              type: String,
+              type: Number,
               required: false,
-              default: '0',
+              default: 0,
             }
         },
         inject: ["eventBus", "layout"],

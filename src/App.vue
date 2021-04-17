@@ -51,14 +51,12 @@
             </grid-layout>
           </el-tab-pane>
           <el-tab-pane label="Code">
-            <pre v-highlightjs>
-                <code class="javscript">
-                   {{code}}
-                </code>
+            <pre v-highlightjs="code">
+              <code class="html">
+              </code>
             </pre>
           </el-tab-pane>
         </el-tabs>
-       
       </el-col>
       <el-col :span="4">
         <Property></Property>
@@ -90,12 +88,12 @@ export default {
     return {
       selected: null,
       layout: this.$store.state.layout,
-      componentNumber: 2,
+      componentNumber: 1,
       draggable: true,
       resizable: true,
       index: 0,
       activeIndex: 'Workspace',
-      code: "let aa 'bbb';"
+      code: ''
     }
   },
   methods: {
@@ -111,7 +109,6 @@ export default {
     handleDragend() {
       this.dragItemId = null;
     },
-    
     handleOpen() {
       console.log('submit!');
     },
@@ -145,6 +142,14 @@ export default {
       this.index++;
     },
     addComponent(component) {
+      let tmpProperty = {
+        type: null,
+      }
+
+      if(component === 'Button') {
+        tmpProperty.type = 'primary';
+      }
+      this.componentNumber++;
       this.layout.push({
         "x":0,
         "y":0,
@@ -153,16 +158,42 @@ export default {
         "i":this.componentNumber, 
         static: false, 
         component: component,
-        property: null
+        property: tmpProperty
       });
-      this.componentNumber++;
+      
     },
-    onFocus() {
+    createCodeBlock() {
+      this.code = `<GridLayout>`;
+      this.layout.map(element => {
+        if(element.component === 'Button') {
+          this.code += `
+          <GridItem static="true" x="${element.x}" y="${element.y}" w="${element.w}" h="${element.h}" i="${element.i}">
+            <el-button>
+              Button
+            </el-button>
+          </GridItem>
+          `;
+        }
+        if(element.component === 'Input_a') {
+          this.code += `
+          <GridItem static="true" x="${element.x}" y="${element.y}" w="${element.w}" h="${element.h}" i="${element.i}">
+            <el-input></el-input>
+          </GridItem>
+          `;
+        }
+        console.log(this.code)
+      });
+      this.code += `</GridLayout>`;
     }
   },
-  mounted() { 
-    
+  beforeMount() { 
+    this.createCodeBlock();
   },
+  watch: {
+    layout: function () {
+      this.createCodeBlock();
+    },
+  }
 }
 </script>
 
