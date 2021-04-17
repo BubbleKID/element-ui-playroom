@@ -252,7 +252,7 @@ export default {
 }
 
 .blueprint {
-  background-color:#4990e2;
+  background-color:rgba(97,168,246,.8);
   background-image: linear-gradient(white 2px, transparent 2px),
     linear-gradient(90deg, white 2px, transparent 2px),
     linear-gradient(rgba(255,255,255,.3) 1px, transparent 1px),
