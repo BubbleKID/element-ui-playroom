@@ -1,8 +1,10 @@
 <template>
   <el-button 
     :type="property.type" 
+    :size="property.size" 
     :plain="plain"
     :icon="icon"
+    :isSelected="false"
     @click="onClick"
   >
     {{property.text}}
@@ -16,6 +18,10 @@ export default {
       type: String,
       default: "primary"
     },
+    size: {
+      type: String,
+      default: "medium"
+    },
     plain: {
       type: Boolean,
       default: false
@@ -28,10 +34,14 @@ export default {
       type: Object,
       default: null
     },
+    isSelected: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
-      data: "我是a组件",
+       
     };
   },
   mounted() {
@@ -42,5 +52,10 @@ export default {
        //console.log(this.property.text);
     }
   },
+  watch: {
+    isSelected: function () {
+      console.log('vvvv');
+    },
+  }
 };
 </script>

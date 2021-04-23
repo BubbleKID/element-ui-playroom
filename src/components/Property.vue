@@ -9,7 +9,18 @@
     <el-form-item label="Type">
       <el-select v-model="type" placeholder="Select">
         <el-option
-          v-for="item in ['primary', 'success']"
+          v-for="item in ['primary', 'success', 'info', 'warning', 'danger']"
+          :key="item"
+          :label="item"
+          :value="item">
+        </el-option>
+      </el-select>
+      <!-- <el-input v-model="form.buttonType"></el-input> -->
+    </el-form-item>
+    <el-form-item label="Size">
+      <el-select v-model="size" placeholder="Select">
+        <el-option
+          v-for="item in ['medium', 'small', 'mini']"
           :key="item"
           :label="item"
           :value="item">
@@ -34,10 +45,11 @@ export default {
         date1: '',
         date2: '',
         delivery: false,
-        type: [],
+        type: '',
         resource: '',
         desc: '',
-        buttonType: ''
+        buttonType: '',
+        size: ''
       },
     };
   },
@@ -65,6 +77,17 @@ export default {
       },
       set (value) {
         this.$store.commit('updateType', value)
+      } 
+    },
+    size: {
+      get () {
+        if(this.$store.state.selected === -1) {
+          return '';
+        }
+        return this.$store.state.layout[this.$store.state.selected].property.size
+      },
+      set (value) {
+        this.$store.commit('updateSize', value)
       } 
     },
     componentId: {

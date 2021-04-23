@@ -2,8 +2,6 @@
   <div class="drag-wrapper"> 
     <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
       <el-menu-item index="1">Export html</el-menu-item>
-      <el-menu-item index="2">View: Design</el-menu-item>
-       <el-menu-item index="3">View: Code</el-menu-item>
     </el-menu>
     <el-row :gutter="20" >
       <el-col :span="4">
@@ -20,6 +18,51 @@
           </el-menu-item>
           <el-menu-item index="4" @click="addComponent('Table')">
             <span>Table</span>
+          </el-menu-item>
+          <el-menu-item index="5" disabled>
+            <span>Link</span>
+          </el-menu-item>
+          <el-menu-item index="6" disabled>
+            <span>Radio</span>
+          </el-menu-item>
+          <el-menu-item index="7" disabled>
+            <span>Checkbox</span>
+          </el-menu-item>
+          <el-menu-item index="8" disabled>
+            <span>InputNumber</span>
+          </el-menu-item>
+          <el-menu-item index="9" disabled>
+            <span>Select</span>
+          </el-menu-item>
+          <el-menu-item index="10" disabled>
+            <span>Cascader</span>
+          </el-menu-item>
+          <el-menu-item index="11" disabled>
+            <span>Switch</span>
+          </el-menu-item>
+          <el-menu-item index="12" disabled>
+            <span>Slider</span>
+          </el-menu-item>
+          <el-menu-item index="13" disabled>
+            <span>TimePicker</span>
+          </el-menu-item>
+          <el-menu-item index="14" disabled>
+            <span>DatePicker</span>
+          </el-menu-item>
+          <el-menu-item index="15" disabled>
+            <span>DateTimePicker</span>
+          </el-menu-item>
+          <el-menu-item index="16" disabled>
+            <span>Upload</span>
+          </el-menu-item>
+          <el-menu-item index="17" disabled>
+            <span>Rate</span>
+          </el-menu-item>
+          <el-menu-item index="18" disabled>
+            <span>ColorPicker</span>
+          </el-menu-item>
+          <el-menu-item index="19" disabled>
+            <span>Form</span>
           </el-menu-item>
         </el-menu>
       </el-col>
@@ -163,7 +206,8 @@ export default {
       
     },
     createCodeBlock() {
-      this.code = `<GridLayout>`;
+      this.code = `
+      <GridLayout>`;
       this.layout.map(element => {
         if(element.component === 'Button') {
           this.code += `
@@ -171,19 +215,18 @@ export default {
             <el-button>
               Button
             </el-button>
-          </GridItem>
-          `;
+          </GridItem>`;
         }
         if(element.component === 'Input_a') {
           this.code += `
           <GridItem static="true" x="${element.x}" y="${element.y}" w="${element.w}" h="${element.h}" i="${element.i}">
             <el-input></el-input>
-          </GridItem>
-          `;
+          </GridItem>`;
         }
         console.log(this.code)
       });
-      this.code += `</GridLayout>`;
+      this.code += `
+      </GridLayout>`;
     }
   },
   beforeMount() { 
